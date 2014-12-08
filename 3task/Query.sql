@@ -1,4 +1,5 @@
-create procedure TotalWealth @idCurrency int as
+
+create procedure TotalWealth @nameCurrency varchar(5) as
 begin 
 	if object_id('tmp1', 'U') IS NOT NULL
 	drop table tmp1;
@@ -17,7 +18,12 @@ begin
 	select idCurrencyFrom, idCurrencyTo, price, amount
 	into ExchengesForMyPurse
 	from tmp1
-	where idCurrencyTo = @idCurrency
+	where idCurrencyTo in
+		(
+			select currencyId 
+			from Currency
+			where currencyName = 'Usd'
+		)
 	
 	select *
 	from ExchengesForMyPurse
@@ -33,5 +39,6 @@ begin
 	from SeparatedWealth
 end
 
-exec TotalWealth @idCurrency = 3
+exec TotalWealth @nameCurrency = 'Usd'
 
+drop procedure TotalWealth;
