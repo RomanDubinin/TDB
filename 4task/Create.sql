@@ -13,6 +13,6 @@ create table Tariffs(
 
 insert Tariffs values
 	(1, 'tariff1', 30, 40, 2),
-	(2, 'tariff2', 0, 0, 1),
-	(3, 'tariff3', 40, 40, 1.5),
-	(4, 'tariff4', 0, 5, 2)
+	(2, 'tariff2', 10, 10, 1),
+	(3, 'tariff3', 40, 40, 1),
+	(4, 'tariff4', 10, 5, 2)

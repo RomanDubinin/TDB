@@ -1,4 +1,4 @@
-﻿create function dbo.MostAdvantageous(@minutes int) 
+﻿create function MostAdvantageous(@minutes int) 
 returns int
 as
 begin
@@ -14,3 +14,6 @@ begin
 	return @TariffId
 end	
 
+print dbo.MostAdvantageous(40)
+
+drop function MostAdvantageous
