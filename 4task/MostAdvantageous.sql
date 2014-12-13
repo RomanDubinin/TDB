@@ -6,7 +6,6 @@ begin
 	begin
 		return 0
 	end
-	
 	declare @TariffId int = (
 								select top 1 Tariffs.id
 								from Tariffs
@@ -14,3 +13,4 @@ begin
 							)
 	return @TariffId
 end	
+
