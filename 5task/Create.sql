@@ -4,6 +4,9 @@
 if object_id('Fishery', 'U') IS NOT NULL
 drop table Fishery;
 
+if object_id('VisitFishingPlace', 'U') IS NOT NULL
+drop table VisitFishingPlace;
+
 if object_id('FishingPlace', 'U') IS NOT NULL
 drop table FishingPlace;
 
@@ -49,6 +52,13 @@ create table Qality(
 	qalityName varchar(50) not null
 )
 
+create table FishingPlace(
+	fishingPlaceId int IDENTITY primary key not null,
+	fishingPlaceName varchar(50) not null,
+	x int not null,
+	y int not null
+)
+
 create table Team(
 	teamId int primary key not null,
 	idCaptain	int references CrewmanPassport (crewmanId),
@@ -69,8 +79,8 @@ create table Fishery(
 	idFishCatch int references FishCatch (fishCatchId)
 )
 
-create table FishingPlace(
-	fishingPlaceId int not null,
+create table VisitFishingPlace(
+	idFishingPlace int not null references FishingPlace (fishingPlaceId),
 	idBoat int not null,
 	arrival date not null,
 	departure date not null,
@@ -126,6 +136,15 @@ insert into Qality
 		(2, 'good'),
 		(3, 'verygood');
 
+insert into FishingPlace
+			(fishingPlaceName,
+			x, 
+			y)
+		values
+		('Place1', 100, 250),
+		('Place2', 300, 300),
+		('Place3', 100, 350);
+
 insert into Team
 			(teamId,
 			idCaptain,
@@ -157,8 +176,8 @@ insert into Fishery
 		(7, 2, 3, '2014-11-15', '2014-11-17', 7),
 		(8, 1, 1, '2014-11-16', '2014-11-17', 8);
 
-insert into FishingPlace
-			(fishingPlaceId,
+insert into VisitFishingPlace
+			(idFishingPlace,
 			idBoat,
 			arrival,
 			departure,
