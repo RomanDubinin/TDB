@@ -14,13 +14,13 @@ cross join Tariffs as tariff2
 
 
 select intersection1 as x into recurringX from AllX
-where intersection1 >= 0
+where intersection1 > 0
 union
 select intersection2 from AllX
-where intersection2 >= 0
+where intersection2 > 0
 union
 select intersection3 from AllX
-where intersection3 >= 0
+where intersection3 > 0
 
 
 select *

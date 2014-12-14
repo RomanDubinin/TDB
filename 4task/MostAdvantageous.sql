@@ -1,5 +1,5 @@
 ﻿create function MostAdvantageous(@minutes int) 
-returns int
+returns varchar(50)
 as
 begin
 	if @minutes <= 0
@@ -11,7 +11,12 @@ begin
 								from Tariffs
 								order by Tariffs.licenseFee + dbo.InlineMax(0, @minutes - Tariffs.limit) * Tariffs.feeOver
 							)
-	return @TariffId
+	declare @TariffName varchar(50) = (
+										select top 1 Tariffs.name
+										from Tariffs
+										where Tariffs.id = @TariffId
+									)
+	return @TariffName
 end	
 
 print dbo.MostAdvantageous(40)
