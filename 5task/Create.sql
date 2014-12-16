@@ -25,6 +25,8 @@ drop table CrewmanPassport;
 if object_id('FishCatch', 'U') IS NOT NULL
 drop table FishCatch;
 
+if object_id('Fish', 'U') IS NOT NULL
+drop table Fish;
 
 create table BoatPassport(
 	boatId int primary key not null,
@@ -41,10 +43,14 @@ create table CrewmanPassport(
 )
 
 create table FishCatch(
-	fishCatchId int primary key not null,
-	codfish float,
-	herring float,
-	crab float
+	idFishery int not null,
+	idFish int,
+	kilograms float
+)
+
+create table Fish(
+	fishId int primary key not null,
+	fishName varchar(50)
 )
 
 create table Qality(
@@ -75,8 +81,7 @@ create table Fishery(
 	idBoat int not null,
 	idTeam int references Team (teamId) not null,
 	departure date not null,
-	arrival date not null,
-	idFishCatch int references FishCatch (fishCatchId)
+	arrival date not null
 )
 
 create table VisitFishingPlace(
@@ -86,8 +91,6 @@ create table VisitFishingPlace(
 	departure date not null,
 	idQality int references Qality (qalityId)
 )
-
-
 
 insert into BoatPassport
 			(boatId,
@@ -113,20 +116,43 @@ insert into CrewmanPassport
 		(7, 'Gennady', 'addr7'),
 		(8, 'Evgeny', 'addr8');
 
-insert into FishCatch
-			(fishCatchId,
-			codfish,
-			herring,
-			crab)
+insert into Fish
+			(fishId,
+			fishName)
 		values
-		(1, 10, 15, 15),
-		(2, 13, 24, 13),
-		(3, 20, 14, 27),
-		(4, 25, 10, 12),
-		(5, 30, 23, 15),
-		(6, 25, 32, 18),
-		(7, 34, 24, 15),
-		(8, 31, 15, 22);
+		(1, 'codfish'),
+		(2, 'herring'),
+		(3, 'crab');
+
+insert into FishCatch
+			(idFishery,
+			idFish,
+			kilograms)
+		values
+		(1, 1, 10),
+		(1, 2, 10),
+		(1, 3, 15),
+		(2, 1, 15),
+		(2, 2, 14),
+		(2, 3, 15),
+		(3, 1, 21),
+		(3, 2, 16),
+		(3, 3, 15),
+		(4, 1, 22),
+		(4, 2, 15),
+		(4, 3, 16),
+		(5, 1, 18),
+		(5, 2, 14),
+		(5, 3, 23),
+		(6, 1, 27),
+		(6, 2, 12),
+		(6, 3, 11),
+		(7, 1, 24),
+		(7, 2, 12),
+		(7, 3, 12),
+		(8, 1, 27),
+		(8, 2, 17),
+		(8, 3, 15);
 
 insert into Qality
 			(qalityId,
@@ -164,17 +190,16 @@ insert into Fishery
 			idBoat,
 			idTeam,
 			departure,
-			arrival,
-			idFishCatch)
+			arrival)
 		values
-		(1, 1, 3, '2014-11-01', '2014-11-03', 1),
-		(2, 1, 2, '2014-11-04', '2014-11-05', 2),
-		(3, 2, 1, '2014-11-01', '2014-11-02', 3),
-		(4, 1, 2, '2014-11-06', '2014-11-08', 4),
-		(5, 2, 3, '2014-11-07', '2014-11-09', 5),
-		(6, 2, 1, '2014-11-10', '2014-11-14', 6),
-		(7, 2, 3, '2014-11-15', '2014-11-17', 7),
-		(8, 1, 1, '2014-11-16', '2014-11-17', 8);
+		(1, 1, 3, '2014-11-01', '2014-11-03'),
+		(2, 1, 2, '2014-11-04', '2014-11-05'),
+		(3, 2, 1, '2014-11-01', '2014-11-02'),
+		(4, 1, 2, '2014-11-06', '2014-11-08'),
+		(5, 2, 3, '2014-11-07', '2014-11-09'),
+		(6, 2, 1, '2014-11-10', '2014-11-14'),
+		(7, 2, 3, '2014-11-15', '2014-11-17'),
+		(8, 1, 1, '2014-11-16', '2014-11-17');
 
 insert into VisitFishingPlace
 			(idFishingPlace,

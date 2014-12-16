@@ -4,12 +4,22 @@
 	@dateTo date 
 as
 begin 
-	select Fishery.departure, BoatPassport.boatName, FishCatch.codfish + FishCatch.herring + FishCatch.crab as 'Total Catch'
+	if object_id('TotalCatch', 'U') IS NOT NULL
+	drop table TotalCatch;
+
+	select Fishery.fisheryId, sum(FishCatch.kilograms) as 'Kg'
+	into TotalCatch
+	from Fishery
+	join FishCatch
+	on Fishery.fisheryId = FishCatch.idFishery
+	group by Fishery.fisheryId
+
+	select Fishery.departure, BoatPassport.boatName, TotalCatch.Kg as 'Total Catch'
 	from Fishery
 	join BoatPassport
 	on Fishery.idBoat = BoatPassport.boatId
-	join FishCatch
-	on Fishery.idFishCatch = FishCatch.fishCatchId
+	join TotalCatch
+	on Fishery.fisheryId = TotalCatch.fisheryId
 	where 
 		Fishery.departure >= @dateFrom and 
 		Fishery.departure <= @dateTo and
